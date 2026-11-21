@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NammaStore — Luxury Indian & Global Online Shopping Destination</title>
+  <meta name="description" content="Shop premium handcrafted silks, flagship tech, single-estate kaapi, and artisanal home decor at NammaStore with 24-hour express delivery.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            namma: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['Outfit', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Canvas Confetti CDN for Checkout Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased selection:bg-amber-500 selection:text-white">
+
+  <!-- ================= TOP ANNOUNCEMENT BAR ================= -->
+  <div class="bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 text-white text-[11px] sm:text-xs py-2 px-4 shadow-inner">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-4">
+      <div class="flex items-center gap-2">
+        <span class="bg-white/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider text-[10px]">Festive Gala</span>
+        <span class="truncate">✨ Free Express Delivery on all orders over ₹999 | Use Code <strong>NAMMA20</strong> for 20% OFF</span>
+      </div>
+
+      <div class="flex items-center gap-4 text-[11px]">
+        <div class="flex items-center gap-1.5 font-medium">
+          <i class="fa-regular fa-clock text-amber-200"></i>
+          <span>Flash Sale Ends:</span>
+          <span id="deal-countdown" class="font-mono font-bold text-amber-200">04h : 42m : 19s</span>
+        </div>
+        <span class="hidden md:inline text-white/40">|</span>
+        <a href="#" id="track-order-header-link" class="hidden md:flex items-center gap-1 hover:text-amber-200 transition">
+          <i class="fa-solid fa-route"></i>
+          <span>Track Order</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN MEGA HEADER ================= -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-4">
+        
+        <!-- Brand Logo -->
+        <a href="/" id="brand-logo-link" class="flex items-center gap-3 flex-shrink-0 group">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-400 text-white flex items-center justify-center text-xl font-black shadow-lg shadow-amber-500/30 group-hover:scale-105 transition duration-300">
+            <span>N</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-serif font-black text-2xl tracking-tight text-slate-900 dark:text-white">Namma<span class="text-amber-600 dark:text-amber-400">Store</span></span>
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border border-amber-300/40">PRO</span>
+            </div>
+            <div class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Curated Heritage & Tech</div>
+          </div>
+        </a>
+
+        <!-- Search Bar with Live Autocomplete & Voice Search -->
+        <div id="search-wrapper" class="relative flex-1 max-w-2xl hidden md:block">
+          <div class="relative flex items-center">
+            <button type="button" id="search-icon-btn" class="absolute left-4 text-slate-400 hover:text-amber-500 transition text-sm cursor-pointer z-10" title="Click or press Enter to search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input 
+              type="text" 
+              id="search-input" 
+              placeholder="Search silk sarees, shirts, Apple M3, Coorg Kaapi... (Press Enter to search)" 
+              class="w-full pl-11 pr-24 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition shadow-inner"
+            />
+            
+            <div class="absolute right-3 flex items-center gap-1.5">
+              <button 
+                id="search-clear-btn" 
+                class="hidden text-slate-400 hover:text-slate-600 p-1 text-xs" 
+                title="Clear search"
+              >
+                <i class="fa-solid fa-circle-xmark"></i>
+              </button>
+              
+              <button 
+                id="voice-search-btn" 
+                class="w-8 h-8 rounded-xl bg-slate-200/60 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-amber-600 flex items-center justify-center transition text-sm" 
+                title="Voice Search"
+              >
+                <i class="fa-solid fa-microphone"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Autocomplete Dropdown -->
+          <div 
+            id="search-autocomplete-dropdown" 
+            class="hidden absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl z-50 overflow-hidden"
+          ></div>
+        </div>
+
+        <!-- Quick Actions & Selectors -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Currency Switcher -->
+          <div class="relative">
+            <select 
+              id="currency-select" 
+              class="appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold py-2 pl-3 pr-7 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none cursor-pointer"
+            >
+              <option value="INR">₹ INR</option>
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+              <option value="GBP">£ GBP</option>
+              <option value="AED">AED</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button 
+            id="theme-toggle-btn" 
+            class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center text-sm shadow-sm"
+            title="Toggle Dark/Light Mode"
+          >
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Fit Locker / Wardrobe Twin Action -->
+          <button 
+            id="fit-locker-nav-btn" 
+            class="relative w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-amber-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center text-sm shadow-sm"
+            title="My Fit Locker (Compare With What I Own)"
+          >
+            <i class="fa-solid fa-shirt"></i>
+            <span id="fit-locker-badge" class="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow">3</span>
+          </button>
+
+          <!-- Compare Action -->
+          <button 
+            id="compare-btn" 
+            class="relative w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-amber-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center text-sm shadow-sm"
+            title="Compare Products"
+          >
+            <i class="fa-solid fa-code-compare"></i>
+            <span id="compare-badge" class="hidden absolute -top-1.5 -right-1.5 bg-indigo-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+          </button>
+
+          <!-- Wishlist Action -->
+          <button 
+            id="wishlist-btn" 
+            class="relative w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center text-sm shadow-sm"
+            title="Saved Wishlist"
+          >
+            <i class="fa-regular fa-heart"></i>
+            <span id="wishlist-badge" class="hidden absolute -top-1.5 -right-1.5 bg-rose-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+          </button>
+
+          <!-- Cart Action -->
+          <button 
+            id="cart-btn" 
+            class="relative flex items-center gap-2.5 px-3 sm:px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-amber-600/30 transition transform active:scale-95"
+            title="Shopping Cart"
+          >
+            <i class="fa-solid fa-bag-shopping text-sm"></i>
+            <span class="hidden sm:inline">Cart</span>
+            <span id="cart-badge" class="bg-white text-amber-700 text-xs font-black px-1.5 py-0.2 rounded-full shadow">0</span>
+          </button>
+
+          <!-- User Account Profile -->
+          <button 
+            id="user-account-btn" 
+            class="w-10 h-10 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:ring-2 hover:ring-amber-500 transition shadow-sm flex items-center justify-center bg-slate-100 dark:bg-slate-800"
+            title="Account & Orders"
+          >
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="User avatar" class="w-full h-full object-cover">
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search Field -->
+      <div class="pb-3 md:hidden">
+        <div class="relative flex items-center">
+          <button type="button" id="mobile-search-icon-btn" class="absolute left-3 text-slate-400 hover:text-amber-500 transition text-xs cursor-pointer z-10" title="Click or press Enter to search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <input 
+            type="text" 
+            id="mobile-search-input" 
+            placeholder="Search shirts, sarees, tech... (Press Enter)" 
+            class="w-full pl-9 pr-10 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+          />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= CATEGORY PILLS BAR ================= -->
+  <div id="category-nav" class="border-b border-slate-200 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 backdrop-blur sticky top-20 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+      <div id="category-pills-container" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
+
+    <!-- Wrapper for regular Home View sections -->
+    <div id="home-view-sections" class="space-y-10">
+
+    <!-- ================= HERO CAROUSEL & PROMOTIONS ================= -->
+    <section class="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-950 text-white min-h-[420px] flex items-center">
+      <!-- Background Image with Overlay -->
+      <div class="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1600&auto=format&fit=crop&q=85" 
+          alt="Royal Silks & Heritage Banner" 
+          class="w-full h-full object-cover object-center opacity-40 mix-blend-overlay scale-105 transform transition duration-1000"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
+      </div>
+
+      <!-- Hero Content -->
+      <div class="relative z-10 p-6 sm:p-12 lg:p-16 max-w-2xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+          <i class="fa-solid fa-crown text-amber-400"></i>
+          <span>The Royal Festive Collection 2026</span>
+        </div>
+
+        <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+          Where <span class="gold-gradient-text">Heritage Elegance</span> Meets Flagship Tech.
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          From certified Kanchipuram mulberry silks and single-estate Coorg kaapi to Apple M3 Max laptops and Sony ANC audio. Handpicked for discerning connoisseurs.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <a 
+            href="#products-section" 
+            class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-sm shadow-xl shadow-amber-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2"
+          >
+            <span>Explore All Curations</span>
+            <i class="fa-solid fa-arrow-down text-xs"></i>
+          </a>
+
+          <button 
+            onclick="window.Store.applyCoupon('NAMMA20'); window.showToast('Coupon NAMMA20 copied & applied!', 'success');"
+            class="px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm backdrop-blur-md border border-white/20 transition flex items-center gap-2"
+          >
+            <i class="fa-solid fa-tags text-amber-400"></i>
+            <span>Apply Code: <strong>NAMMA20</strong></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VALUE PROPOSITION BADGES ================= -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/50 text-amber-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white">24h Express Delivery</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">Free on orders above ₹999</div>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-certificate"></i>
+        </div>
+        <div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white">100% Certified Authentic</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">Direct artisan & brand warranty</div>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-rotate-left"></i>
+        </div>
+        <div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white">7-Day Easy Returns</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">No questions asked return pickup</div>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-950/50 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white">Instant UPI & Cards</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">256-bit encrypted checkout</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MAIN CATALOG SECTION ================= -->
+    <section id="products-section" class="space-y-6">
+      
+      <!-- Catalog Controls Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+        <div>
+          <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            Curated Products
+          </h2>
+          <div id="products-count" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Loading catalog items...
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 text-xs">
+          <label class="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">Min ₹
+            <input id="filter-min-price" type="number" min="0" value="0" class="w-24 bg-slate-100 dark:bg-slate-700 py-2 px-2 rounded-xl border border-slate-200 dark:border-slate-600">
+          </label>
+          <label class="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">Max ₹
+            <input id="filter-max-price" type="number" min="0" value="350000" class="w-28 bg-slate-100 dark:bg-slate-700 py-2 px-2 rounded-xl border border-slate-200 dark:border-slate-600">
+          </label>
+          <label class="flex items-center gap-2 text-slate-700 dark:text-slate-300">City
+            <select id="filter-city" class="bg-slate-100 dark:bg-slate-700 py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-600">
+              <option value="">All cities</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Delhi">Delhi</option>
+            </select>
+          </label>
+          <!-- In-Stock Filter Checkbox -->
+          <label class="flex items-center gap-1.5 cursor-pointer select-none text-slate-700 dark:text-slate-300">
+            <input type="checkbox" id="filter-in-stock" class="rounded text-amber-600 focus:ring-amber-500">
+            <span>In Stock Only</span>
+          </label>
+
+          <!-- 24h Express Filter Checkbox -->
+          <label class="flex items-center gap-1.5 cursor-pointer select-none text-slate-700 dark:text-slate-300">
+            <input type="checkbox" id="filter-express" class="rounded text-amber-600 focus:ring-amber-500">
+            <span class="text-amber-600 dark:text-amber-400 font-semibold"><i class="fa-solid fa-bolt text-[10px]"></i> 24h Express</span>
+          </label>
+
+          <!-- Sort Select -->
+          <div class="relative">
+            <select 
+              id="sort-select" 
+              class="appearance-none bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-2 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-600 cursor-pointer"
+            >
+              <option value="featured">Sort: Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Customer Rating</option>
+              <option value="discount">Biggest Discount</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
+          </div>
+
+          <!-- Grid / List Switcher -->
+          <div class="flex items-center bg-slate-100 dark:bg-slate-700 p-1 rounded-xl">
+            <button id="view-grid-btn" class="p-2 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 transition" title="Grid View">
+              <i class="fa-solid fa-table-cells-large"></i>
+            </button>
+            <button id="view-list-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-600 transition" title="List View">
+              <i class="fa-solid fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ================= HERITAGE & ARTISAN SPOTLIGHT ================= -->
+    <section class="rounded-3xl overflow-hidden bg-gradient-to-br from-amber-950 via-slate-900 to-slate-950 text-white p-8 sm:p-12 relative border border-amber-900/30">
+      <div class="max-w-3xl space-y-4">
+        <span class="text-amber-400 font-bold uppercase tracking-wider text-xs">Empowering Regional Artisans</span>
+        <h3 class="font-serif text-2xl sm:text-4xl font-extrabold leading-snug">
+          Rooted in Tradition. Crafted for the Modern World.
+        </h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Every purchase at NammaStore directly supports independent master weavers of Kanchipuram, woodturners of Channapatna, organic coffee farmers in Coorg, and classical Ayurvedic practitioners in Kerala. We cut out intermediaries to deliver authentic heritage with transparent quality guarantees.
+        </p>
+
+        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-white/10 text-center">
+          <div>
+            <div class="text-2xl sm:text-3xl font-black text-amber-400">1,200+</div>
+            <div class="text-[11px] text-slate-400">Master Artisans Supported</div>
+          </div>
+          <div>
+            <div class="text-2xl sm:text-3xl font-black text-amber-400">100%</div>
+            <div class="text-[11px] text-slate-400">GI Certified Handloom</div>
+          </div>
+          <div>
+            <div class="text-2xl sm:text-3xl font-black text-amber-400">4.9 ★</div>
+            <div class="text-[11px] text-slate-400">Average Buyer Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NEWSLETTER & REWARDS REWARD ================= -->
+    <section class="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="max-w-md">
+        <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">
+          <i class="fa-solid fa-gift"></i>
+          <span>Join Namma Privilege Club</span>
+        </div>
+        <h4 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+          Get ₹500 off on your first order
+        </h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          Subscribe for secret festive drops, early access to flagship sales, and exclusive loyalty coin bonuses.
+        </p>
+      </div>
+
+      <div class="w-full md:w-auto flex-1 max-w-md">
+        <form onsubmit="event.preventDefault(); window.showToast('Subscribed! Promo code FIRSTBUY applied for ₹500 discount 🎉', 'success'); window.Store.applyCoupon('FIRSTBUY');" class="flex gap-2">
+          <input 
+            type="email" 
+            required 
+            placeholder="Enter your email address..." 
+            class="flex-1 px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+          <button 
+            type="submit" 
+            class="px-5 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-md transition whitespace-nowrap"
+          >
+            Claim ₹500
+          </button>
+        </form>
+      </div>
+    </section>
+
+    </div><!-- End of #home-view-sections -->
+
+    <!-- ================= DEDICATED SEARCH RESULTS PAGE ================= -->
+    <section id="search-results-section" class="hidden space-y-6">
+      <!-- Breadcrumb & Back navigation -->
+      <div class="flex items-center justify-between flex-wrap gap-4 pt-1">
+        <nav class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <button id="search-back-home-btn" type="button" class="hover:text-amber-600 dark:hover:text-amber-400 font-semibold flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Store</span>
+          </button>
+          <span class="text-slate-300 dark:text-slate-600">/</span>
+          <span class="text-slate-900 dark:text-white font-medium">Search Results</span>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <button id="search-clear-all-btn" type="button" class="text-xs text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 flex items-center gap-1.5 transition font-semibold">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span>Clear Search</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Results Header Hero -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950 text-white relative overflow-hidden shadow-xl border border-amber-900/30">
+        <div class="relative z-10 space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Catalog Search Results</span>
+          </div>
+          <h1 class="font-serif text-2xl sm:text-4xl font-extrabold tracking-tight">
+            Results for <span id="search-query-display" class="gold-gradient-text">"..."</span>
+          </h1>
+          <p id="search-results-summary" class="text-slate-300 text-xs sm:text-sm">
+            Displaying matching items from our verified artisan & technology collections.
+          </p>
+        </div>
+        <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      </div>
+
+      <!-- Search Controls Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+        <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <span id="search-results-count-badge" class="px-3 py-1.5 rounded-xl bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 font-bold text-xs">
+            Loading...
+          </span>
+          <div id="search-active-pill" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700/80 text-xs text-slate-700 dark:text-slate-300 font-medium">
+            <span>Query: <strong id="search-pill-text">...</strong></span>
+            <button id="search-pill-clear-btn" type="button" class="text-slate-400 hover:text-rose-500 transition" title="Clear this query">
+              <i class="fa-solid fa-xmark text-xs"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 text-xs">
+          <!-- Sort Select -->
+          <div class="relative">
+            <select 
+              id="search-sort-select" 
+              class="appearance-none bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-2 pl-3 pr-8 rounded-xl border border-slate-200 dark:border-slate-600 cursor-pointer"
+            >
+              <option value="featured">Sort: Best Match</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Customer Rating</option>
+              <option value="discount">Biggest Discount</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
+          </div>
+
+          <!-- Grid / List Switcher -->
+          <div class="flex items-center bg-slate-100 dark:bg-slate-700 p-1 rounded-xl">
+            <button id="search-view-grid-btn" type="button" class="p-2 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 transition" title="Grid View">
+              <i class="fa-solid fa-table-cells-large"></i>
+            </button>
+            <button id="search-view-list-btn" type="button" class="p-2 rounded-lg text-slate-400 hover:text-slate-600 transition" title="List View">
+              <i class="fa-solid fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Results Products Grid -->
+      <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= LUXURY FOOTER ================= -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs pt-12 pb-24 md:pb-12 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+        
+        <!-- Brand Info -->
+        <div class="md:col-span-2 space-y-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black text-lg shadow">N</div>
+            <span class="font-serif font-black text-xl text-slate-900 dark:text-white">Namma<span class="text-amber-600">Store</span></span>
+          </div>
+          <p class="text-slate-500 text-xs leading-relaxed max-w-sm">
+            India's most trusted luxury marketplace blending authentic regional heritage, handlooms, single-origin delicacies, and latest flagship technology under one seamless experience.
+          </p>
+          <div class="text-[11px] text-slate-500">
+            <p><strong>Headquarters:</strong> #42, Indiranagar 100ft Rd, Bengaluru, KA 560038</p>
+            <p><strong>Customer Care:</strong> 1800-892-NAMMA (Toll Free, 24/7)</p>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h5 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Categories</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-amber-600 transition">Kanjeevaram Silks</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Coorg Filter Kaapi</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Apple & Audio Gear</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Handmade Brass Decor</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Kumkumadi Skincare</a></li>
+          </ul>
+        </div>
+
+        <!-- Customer Service -->
+        <div>
+          <h5 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Customer Care</h5>
+          <ul class="space-y-2">
+            <li><a href="#" onclick="event.preventDefault(); document.getElementById('track-order-header-link').click();" class="hover:text-amber-600 transition">Track Your Order</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Shipping & Delivery Rates</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Returns & Replacements</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Silk Mark Certification</a></li>
+            <li><a href="#" class="hover:text-amber-600 transition">Help & FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- Payment Badges -->
+        <div>
+          <h5 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Secure Payments</h5>
+          <div class="flex flex-wrap gap-2 text-slate-700 dark:text-slate-300 text-xs">
+            <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 border font-semibold">UPI 1-Tap</span>
+            <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 border font-semibold">Google Pay</span>
+            <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 border font-semibold">PhonePe</span>
+            <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 border font-semibold">RuPay</span>
+            <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 border font-semibold">Visa / MC</span>
+            <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 border font-semibold">COD Available</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
+        <p>© 2026 NammaStore Retail Limited. All rights reserved. Crafted with ❤️ for India & the World.</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:underline">Privacy Policy</a>
+          <a href="#" class="hover:underline">Terms of Service</a>
+          <a href="#" class="hover:underline">Security Audit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MOBILE STICKY BOTTOM NAV ================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 py-2 px-4 flex items-center justify-around shadow-2xl">
+    <a href="#" class="flex flex-col items-center gap-1 text-amber-600 font-bold text-[10px]">
+      <i class="fa-solid fa-house text-base"></i>
+      <span>Home</span>
+    </a>
+    <a href="#products-section" class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 text-[10px]">
+      <i class="fa-solid fa-shapes text-base"></i>
+      <span>Catalog</span>
+    </a>
+    <button id="mobile-wishlist-btn" class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 text-[10px] relative">
+      <i class="fa-regular fa-heart text-base"></i>
+      <span id="mobile-wishlist-badge" class="hidden absolute -top-1 -right-2 bg-rose-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+      <span>Wishlist</span>
+    </button>
+    <button id="mobile-cart-btn" class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 text-[10px] relative">
+      <i class="fa-solid fa-bag-shopping text-base"></i>
+      <span id="mobile-cart-badge" class="hidden absolute -top-1 -right-2 bg-amber-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+      <span>Cart</span>
+    </button>
+    <button id="mobile-fitlocker-btn" class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 text-[10px] relative">
+      <i class="fa-solid fa-shirt text-base"></i>
+      <span id="mobile-fitlocker-badge" class="absolute -top-1 -right-2 bg-amber-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
+      <span>Fit Locker</span>
+    </button>
+  </nav>
+
+  <!-- ================= OFF-CANVAS CART DRAWER ================= -->
+  <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 z-50 modal-backdrop backdrop-blur-sm">
+    <div id="cart-drawer-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl drawer-panel flex flex-col justify-between">
+      
+      <!-- Drawer Header -->
+      <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-bag-shopping text-amber-600 text-lg"></i>
+          <h3 class="font-bold text-base text-slate-900 dark:text-white">Your Shopping Cart</h3>
+        </div>
+        <button id="cart-drawer-close-btn" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Free Shipping Progress -->
+      <div class="px-5 py-3 bg-amber-50/60 dark:bg-slate-800/50 border-b border-amber-100 dark:border-slate-800">
+        <div class="text-[11px] mb-1.5" id="free-shipping-text">
+          Add more for FREE shipping!
+        </div>
+        <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+          <div id="free-shipping-progress" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Active Coupon Notice -->
+      <div id="active-coupon-badge" class="px-5 pt-3 hidden"></div>
+
+      <!-- Cart Items List (Scrollable) -->
+      <div id="cart-drawer-items" class="flex-1 overflow-y-auto p-5 space-y-3">
+        <!-- Rendered by app.js -->
+      </div>
+
+      <!-- Drawer Footer & Breakdown -->
+      <div class="p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/90 space-y-3">
+        
+        <!-- Promo Code Input -->
+        <div class="flex gap-2">
+          <input 
+            type="text" 
+            id="cart-coupon-input" 
+            placeholder="Promo Code (e.g. NAMMA20)" 
+            class="flex-1 uppercase text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none"
+          />
+          <button 
+            id="cart-apply-coupon-btn" 
+            class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-amber-600 hover:bg-amber-600 text-white font-bold text-xs transition"
+          >
+            Apply
+          </button>
+        </div>
+
+        <!-- Quick Coupon Chips -->
+        <div class="flex gap-1.5 text-[10px]">
+          <button onclick="document.getElementById('cart-coupon-input').value = 'NAMMA20'; document.getElementById('cart-apply-coupon-btn').click();" class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100">
+            NAMMA20 (20% OFF)
+          </button>
+          <button onclick="document.getElementById('cart-coupon-input').value = 'FIRSTBUY'; document.getElementById('cart-apply-coupon-btn').click();" class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100">
+            FIRSTBUY (₹500 OFF)
+          </button>
+        </div>
+
+        <!-- Subtotals -->
+        <div class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+          <div class="flex justify-between">
+            <span>Subtotal:</span>
+            <span id="cart-subtotal-val" class="font-bold text-slate-800 dark:text-slate-100">₹0</span>
+          </div>
+          <div id="cart-discount-row" class="flex justify-between text-emerald-600 hidden">
+            <span>Coupon Discount:</span>
+            <span id="cart-discount-val" class="font-bold">-₹0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Delivery Fee:</span>
+            <span id="cart-shipping-val" class="font-bold text-emerald-600">FREE</span>
+          </div>
+          <div class="flex justify-between text-sm pt-2 border-t font-black text-slate-900 dark:text-white">
+            <span>Estimated Total:</span>
+            <span id="cart-total-val" class="text-amber-600">₹0</span>
+          </div>
+        </div>
+
+        <!-- Proceed to Checkout -->
+        <button 
+          id="cart-proceed-checkout-btn" 
+          class="w-full py-3.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-xl shadow-amber-600/30 transition flex items-center justify-center gap-2"
+        >
+          <i class="fa-solid fa-lock text-xs"></i>
+          <span>Proceed to Secure Checkout</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= PRODUCT QUICK VIEW MODAL ================= -->
+  <div id="quickview-modal" class="fixed inset-0 bg-black/70 z-50 modal-backdrop backdrop-blur-md flex items-center justify-center p-4">
+    <div id="quickview-modal-content" class="modal-content-scale w-full max-w-4xl">
+      <!-- Injected by app.js -->
+    </div>
+  </div>
+
+  <!-- ================= MULTI-STEP CHECKOUT MODAL ================= -->
+  <div id="checkout-modal" class="fixed inset-0 bg-black/70 z-50 modal-backdrop backdrop-blur-md flex items-center justify-center p-4">
+    <div class="modal-content-scale w-full max-w-2xl bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+      
+      <!-- Checkout Header -->
+      <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center font-bold text-sm">NM</div>
+          <div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white">NammaStore Secure Checkout</h3>
+            <div class="text-[10px] text-slate-400">Order Security Verified by 256-bit SSL</div>
+          </div>
+        </div>
+
+        <button id="checkout-modal-close-btn" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 flex items-center justify-center hover:bg-slate-200">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Step Indicator Pills -->
+      <div class="px-5 py-3 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between gap-2 overflow-x-auto">
+        <div class="checkout-step-pill px-3 py-1 rounded-full text-xs font-bold bg-amber-600 text-white flex items-center gap-1.5 shadow-sm">
+          <span>1. Address</span>
+        </div>
+        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+        <div class="checkout-step-pill px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center gap-1.5">
+          <span>2. Shipping</span>
+        </div>
+        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+        <div class="checkout-step-pill px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center gap-1.5">
+          <span>3. Payment</span>
+        </div>
+        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+        <div class="checkout-step-pill px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center gap-1.5">
+          <span>4. Confirm</span>
+        </div>
+      </div>
+
+      <!-- Step Dynamic Body -->
+      <div id="checkout-step-body" class="p-6 overflow-y-auto flex-1">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= COMPARE DRAWER ================= -->
+  <div id="compare-drawer" class="fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-slate-900 border-t-2 border-amber-500 shadow-2xl modal-backdrop">
+    <div class="max-w-7xl mx-auto p-4 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-code-compare text-amber-600 text-lg"></i>
+          <h4 class="font-bold text-base text-slate-900 dark:text-white">Product Comparison Matrix</h4>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="compare-clear-all-btn" class="text-xs text-rose-500 font-bold hover:underline">Clear Comparison</button>
+          <button id="compare-drawer-close-btn" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="compare-matrix-content">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ORDER TRACKING MODAL ================= -->
+  <div id="tracking-modal" class="fixed inset-0 bg-black/70 z-50 modal-backdrop backdrop-blur-md flex items-center justify-center p-4">
+    <div id="tracking-modal-content" class="modal-content-scale w-full max-w-lg">
+      <!-- Rendered by app.js -->
+    </div>
+  </div>
+
+  <!-- ================= SMART CLOTH SCANNER MODAL (PHOTO & LIVE CAMERA) ================= -->
+  <div id="cloth-scanner-modal" class="fixed inset-0 bg-black/80 z-50 modal-backdrop backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div id="cloth-scanner-modal-content" class="modal-content-scale w-full max-w-xl max-h-[95vh] overflow-y-auto">
+      <!-- Rendered dynamically by app.js -->
+    </div>
+  </div>
+
+  <!-- ================= FIT LOCKER WARDROBE MODAL ================= -->
+  <div id="fit-locker-modal" class="fixed inset-0 bg-black/75 z-50 modal-backdrop backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div id="fit-locker-modal-content" class="modal-content-scale w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+      <!-- Rendered dynamically by app.js -->
+    </div>
+  </div>
+
+  <!-- ================= LIVE SOCIAL SALES POPUP ================= -->
+  <div id="live-social-popup" class="live-sales-popup">
+    <!-- Populated periodically by app.js -->
+  </div>
+
+  <!-- ================= TOAST CONTAINER ================= -->
+  <div id="toast-container"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="js/products-data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
